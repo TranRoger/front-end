@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .table-header {
+        @apply p-4;
+    }
+    .table-header-text {
+        @apply block font-sans text-black text-xl antialiased leading-none;
+    }
+
+    .table-row-text {
+        @apply text-black text-lg;
+    }
+}

@@ -11,7 +11,7 @@ const Home = () => {
       <div className="mb-auto flex h-full">
             <Menu />
 
-            <div className="flex-1 h-full relative">
+            <div className="flex-1 h-full relative mx-1 my-1">
                 <img
                     src="dashboard.png"
                     alt="dashboard"

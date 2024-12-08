@@ -1,4 +1,5 @@
 import React from 'react';
+import './Menu.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const Menu = () => {
@@ -10,8 +11,8 @@ const Menu = () => {
   };
 
   return (
-    <div className="w-[350px] flex flex-col h-full justify-center bg-[#D9D9D9] bg-opacity-10">
-      <Link to="/list" onClick={() => handleButtonClick('/list')} className='menu'>
+    <div className="w-1/6 flex flex-col h-full justify-center bg-[#D9D9D9] bg-opacity-10">
+      <Link to="/list" onClick={() => handleButtonClick('/list')} className={pressedState === '/create' ? 'menu-pressed' : 'menu'}>
         <button>Lập danh sách khám bệnh</button>
       </Link>
       <Link to="/create" onClick={() => handleButtonClick('/create')} className={pressedState === '/create' ? 'menu-pressed' : 'menu'}>
