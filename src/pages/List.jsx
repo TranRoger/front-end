@@ -5,6 +5,7 @@ import Menu from '../components/Menu'
 import Button from '../components/ui/button'
 import TrashButton from '../components/ui/dltButton'
 import EditButton from '../components/ui/editButton'
+import patientModal from '../components/patientModal'
 import './List.css'
 
 const TableHeader = () => {
@@ -44,6 +45,7 @@ const TableHeader = () => {
 }
 
 const Table = ({ patients, maxPatients }) => {
+  const [modalOpen, setModalOpen] = useState(false);
   const addPatient = () => {
     let index = patients.length;
     if (index < maxPatients) {
@@ -53,7 +55,8 @@ const Table = ({ patients, maxPatients }) => {
             <p className='table-row-text'>{index + 1}</p>
           </td>
           <td className='p-1'>
-            <Button text='Thêm bệnh nhân' />
+            <Button text='Thêm bệnh nhân' onClick={() => setModalOpen(true)}/>
+            {patientModal()}
           </td>
           <td></td>
           <td></td>
