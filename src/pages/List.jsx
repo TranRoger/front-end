@@ -11,9 +11,24 @@ import BE_SERVER from '../../config/system'
 const List = () => {
   const [loading, setLoading] = useState(false)
   const [patients, setPatient] = useState([]);
-  const maxPatients = 40;
+  const [maxPatients, setMaxPatients] = useState(40);
   const [modalOpen, setModalOpen] = useState(false);
   const [patientToEdit, setPatientToEdit] = useState(null)
+
+  useEffect(() => {
+    setLoading(true)
+
+    axios
+    .get(`${BE_SERVER}regulation-update/general-regulation`)
+    .then((response) => {
+        setMaxPatients(response.data.data.maxPatientsPerDay)
+        setLoading(false)
+    })
+    .catch((error) => {
+      console.error(error)
+      setLoading(false)
+    })
+  }, [])
 
   useEffect(() => {
     setLoading(true)
@@ -22,12 +37,13 @@ const List = () => {
       .get(`${BE_SERVER}exam-list`)
       .then((response) => {
         setPatient(response.data.data)
+
         setLoading(false)
       })
       .catch((error) => {
         setLoading(false)
       })
-  }, [loading])
+  }, [])
 
 
   const GetDate = () => {
@@ -46,10 +62,6 @@ const List = () => {
   }
 
   const HandleEditPatient = (index) => {
-    console.log(patients[index])
-    console.log(patients[index].createdAt)
-    console.log(date)
-    console.log(toString(patients[index].createdAt).includes(date))
     setPatientToEdit(index)
 
     setModalOpen(true)
@@ -95,10 +107,12 @@ const List = () => {
         })
     }
   }
-
-  return (
+  
+  if (loading) {
+    return ( <Spinner /> )
+  }
+  else return (
     <div className="flex flex-1 flex-col w-full m-1 mr-3">
-      {loading && <Spinner />}
       {/* Content header */}
       <div className='flex flex-col w-full h-28 items-center justify-between'>
         <div className="text-black font-bold text-3xl p-2">DANH SÁCH KHÁM BỆNH</div>
@@ -108,13 +122,13 @@ const List = () => {
             <div className="text-black text-lg">Ngày khám:</div>
             <input type="date" placeholder='dd-mm-yyyy' value={date} className="w-[200px] bg-transparent text-lg" onChange={HandleDateChange} />
           </div>
-          <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />
+          { maxPatients > patients.filter((item) => item.examDate === date).length && <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />}
         </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
-        <Table patients={patients.filter((items) => items.examDate === date)} maxPatients={maxPatients} HandlePatient={() => setModalOpen(true)} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
+        <Table patients={patients.filter((item) => item.examDate === date)} maxPatients={maxPatients} HandlePatient={() => setModalOpen(true)} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
       </div>
       {modalOpen && <PatientModal CloseModal={() => { setModalOpen(false); setPatientToEdit(null) }} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients[patientToEdit]} today={date} />}
     </div>
