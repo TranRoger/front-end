@@ -31,15 +31,6 @@ const List = () => {
     setDate(e.target.value)
   }
 
-  fs.readFile('../cache/' + date + '.json', (error, data) => {
-    if (error) {
-      console.log(error)
-
-      throw(error)
-    }
-
-    setPatient(JSON.parse(data))
-  }) 
 
   const HandleEditPatient = (index) => {
     setPatientToEdit(index)
@@ -73,15 +64,27 @@ const List = () => {
         setLoading(false)
       })
   }
+  useEffect(() => {
+    setLoading(true)
 
+    axios
+      .get('http://localhost:3000/admin/exam-list')
+      .then((response) => {
+        setPatient(response.data.data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+      })
+  })
 
   return (
-    <div className='bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] h-screen flex flex-col'>
+    <div className='bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] h-[100vh] flex flex-col overflow-hidden'>
       <Header />
-      <div className="mb-auto flex h-full">
+      <div className="flex flex-row h-[80%]">
         <Menu />
 
-        <div className="flex-1 h-full relative mx-1 my-1">
+        <div className="flex flex-col w-full m-1">
           {/* Content header */}
           <div className='flex flex-col w-full h-350 items-center justify-center p-4 space-y-3'>
             <div className="text-black font-bold text-3xl">DANH SÁCH KHÁM BỆNH</div>
@@ -92,7 +95,7 @@ const List = () => {
           </div>
 
           {/* Content */}
-          <div className="flex-1 w-full relative flex flex-col overflow-scroll items-center">
+          <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
             <Table patients={patients} maxPatients={maxPatients} HandlePatient={HandlePatientButton} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
           </div>
         </div>
