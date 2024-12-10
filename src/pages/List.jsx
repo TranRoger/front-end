@@ -19,15 +19,15 @@ const List = () => {
     setLoading(true)
 
     axios
-    .get(`${BE_SERVER}regulation-update/general-regulation`)
-    .then((response) => {
+      .get(`${BE_SERVER}regulation-update/general-regulation`)
+      .then((response) => {
         setMaxPatients(response.data.data.maxPatientsPerDay)
         setLoading(false)
-    })
-    .catch((error) => {
-      console.error(error)
-      setLoading(false)
-    })
+      })
+      .catch((error) => {
+        console.error(error)
+        setLoading(false)
+      })
   }, [])
 
   useEffect(() => {
@@ -79,11 +79,12 @@ const List = () => {
         console.log(error)
         setLoading(false)
       })
+
+    setPatient(patients.filter((_, idx) => idx !== index))
   }
 
   const HandleNewPatient = (newPatient) => {
     setLoading(true)
-    console.log(newPatient)
     if (patientToEdit === null) {
       axios
         .post(`${BE_SERVER}exam-list/create`, newPatient)
@@ -94,6 +95,8 @@ const List = () => {
           console.log(error)
           setLoading(false)
         })
+
+        setPatient([...patients, newPatient])
     }
     else {
       axios
@@ -105,11 +108,17 @@ const List = () => {
           console.log(error)
           setLoading(false)
         })
+
+        setPatient(patients.map((patient, idx) => {
+          if (idx !== patientToEdit) return patient
+
+          return newPatient
+        }))
     }
   }
-  
+
   if (loading) {
-    return ( <Spinner /> )
+    return (<Spinner />)
   }
   else return (
     <div className="flex flex-1 flex-col w-full m-1 mr-3">
@@ -122,7 +131,7 @@ const List = () => {
             <div className="text-black text-lg">Ngày khám:</div>
             <input type="date" placeholder='dd-mm-yyyy' value={date} className="w-[200px] bg-transparent text-lg" onChange={HandleDateChange} />
           </div>
-          { maxPatients > patients.filter((item) => item.examDate === date).length && <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />}
+          {maxPatients > patients.filter((item) => item.examDate === date).length && <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />}
         </div>
       </div>
 
