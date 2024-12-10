@@ -10,7 +10,7 @@
 
 @layer components {
     .modal {
-        @apply overflow-y-auto overflow-x-hidden fixed justify-center items-center w-auto h-auto max-h-full; 
+        @apply bg-black/50 fixed flex justify-center items-center w-full h-full inset-0; 
     }
 
     .fields {

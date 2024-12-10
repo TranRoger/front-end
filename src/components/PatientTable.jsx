@@ -40,29 +40,9 @@ const TableHeader = () => {
     )
 }
 
-const PatientTable = ({ patients, maxPatients, HandlePatient, HandleDelete, HandleEdit }) => {
-    const AddPatient = () => {
-        let index = patients.length;
-        if (index < maxPatients) {
-            return (
-                <tr key={index} className='even:bg-[#D9D9D9]/100 p-4'>
-                    <td className='p-4 text-center'>
-                        <p className='table-row-text'>{index + 1}</p>
-                    </td>
-                    <td className='p-1'>
-                        <Button text='Thêm bệnh nhân' handler={HandlePatient} />
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            )
-        }
-    }
-
+const PatientTable = ({ patients, HandleDelete, HandleEdit }) => {
     return (
-        <table className='flex-1 w-full table-auto'>
+        <table className='w-full table-auto'>
             <TableHeader />
 
             <tbody className='flex-1 w-full overflow-scroll'>
@@ -80,7 +60,7 @@ const PatientTable = ({ patients, maxPatients, HandlePatient, HandleDelete, Hand
                                     <p className='table-row-text'>{patient.sex}</p>
                                 </td>
                                 <td className='p-4 text-center'>
-                                    <p className='table-row-text'>{patient.age}</p>
+                                    <p className='table-row-text'>{patient.yearOfBirth}</p>
                                 </td>
                                 <td className='p-4'>
                                     <p className='table-row-text'>{patient.address}</p>
@@ -95,7 +75,6 @@ const PatientTable = ({ patients, maxPatients, HandlePatient, HandleDelete, Hand
                         )
                     })
                 }
-                <AddPatient />
             </tbody>
         </table>
     )

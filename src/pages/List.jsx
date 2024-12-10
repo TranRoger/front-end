@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import Menu from '../components/Menu'
 import Table from '../components/PatientTable'
 import PatientModal from '../components/PatientModal'
-import Spinner from '../components/ui/Spinner'
+import Button from '../components/ui/button'
 import axios from 'axios'
+import Spinner from '../components/ui/Spinner'
 import './List.css'
-import * as fs from 'fs'
+
+import BE_SERVER from '../../config/system'
 
 const List = () => {
   const [loading, setLoading] = useState(false)
@@ -15,6 +14,21 @@ const List = () => {
   const maxPatients = 40;
   const [modalOpen, setModalOpen] = useState(false);
   const [patientToEdit, setPatientToEdit] = useState(null)
+
+  useEffect(() => {
+    setLoading(true)
+
+    axios
+      .get(`${BE_SERVER}exam-list`)
+      .then((response) => {
+        setPatient(response.data.data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+      })
+  }, [loading])
+
 
   const GetDate = () => {
     var date = new Date()
@@ -31,77 +45,78 @@ const List = () => {
     setDate(e.target.value)
   }
 
-
   const HandleEditPatient = (index) => {
+    console.log(patients[index])
+    console.log(patients[index].createdAt)
+    console.log(date)
+    console.log(toString(patients[index].createdAt).includes(date))
     setPatientToEdit(index)
 
     setModalOpen(true)
   }
 
-  const HandlePatientButton = () => {
-    setModalOpen(true)
-  }
-
   const HandleDeleteButton = (index) => {
-    setPatient(patients.filter((_, i) => i !== index))
+    setLoading(true)
+
+    axios
+      .delete(`${BE_SERVER}exam-list/delete/${patients[index]._id}`)
+      .then(() => {
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+        setLoading(false)
+      })
   }
 
   const HandleNewPatient = (newPatient) => {
     setLoading(true)
-    axios
-      .post('http://localhost:3000/admin/exam-list/create', newPatient)
-      .then(() => {
-        patientToEdit === null ?
-          setPatient([...patients, newPatient]) :
-          setPatient(patients.map((currentPatient, idx) => {
-            if (idx !== patientToEdit) return currentPatient
-
-            return newPatient
-          }))
-        setPatientToEdit(null)
-      })
-      .catch((error) => {
-        setLoading(false)
-      })
+    console.log(newPatient)
+    if (patientToEdit === null) {
+      axios
+        .post(`${BE_SERVER}exam-list/create`, newPatient)
+        .then(() => {
+          setLoading(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          setLoading(false)
+        })
+    }
+    else {
+      axios
+        .patch(`${BE_SERVER}exam-list/edit/${newPatient._id}`, newPatient)
+        .then(() => {
+          setLoading(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          setLoading(false)
+        })
+    }
   }
-  useEffect(() => {
-    setLoading(true)
-
-    axios
-      .get('http://localhost:3000/admin/exam-list')
-      .then((response) => {
-        setPatient(response.data.data)
-        setLoading(false)
-      })
-      .catch((error) => {
-        setLoading(false)
-      })
-  })
 
   return (
-    <div className='bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] h-[100vh] flex flex-col overflow-hidden'>
-      <Header />
-      <div className="flex flex-row h-[80%]">
-        <Menu />
-
-        <div className="flex flex-col w-full m-1">
-          {/* Content header */}
-          <div className='flex flex-col w-full h-350 items-center justify-center p-4 space-y-3'>
-            <div className="text-black font-bold text-3xl">DANH SÁCH KHÁM BỆNH</div>
-            <div className="flex flex-row w-full h-full items-center justify-center space-x-3">
-              <div className="text-black text-lg">Ngày khám:</div>
-              <input type="date" placeholder='dd-mm-yyyy' value={date} className="w-[200px] bg-transparent text-lg" onChange={HandleDateChange} />
-            </div>
+    <div className="flex flex-1 flex-col w-full m-1 mr-3">
+      {loading && <Spinner />}
+      {/* Content header */}
+      <div className='flex flex-col w-full h-28 items-center justify-between'>
+        <div className="text-black font-bold text-3xl p-2">DANH SÁCH KHÁM BỆNH</div>
+        <div className="grid grid-cols-3 w-full h-full items-center space-x-3 mr-auto">
+          <div></div>
+          <div className='flex flex-row space-x-3 items-center justify-center'>
+            <div className="text-black text-lg">Ngày khám:</div>
+            <input type="date" placeholder='dd-mm-yyyy' value={date} className="w-[200px] bg-transparent text-lg" onChange={HandleDateChange} />
           </div>
-
-          {/* Content */}
-          <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
-            <Table patients={patients} maxPatients={maxPatients} HandlePatient={HandlePatientButton} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
-          </div>
+          <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />
         </div>
       </div>
-      <Footer />
-      {modalOpen && <PatientModal CloseModal={() => setModalOpen(false)} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients[patientToEdit]} />}
+
+      {/* Content */}
+      <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
+        <Table patients={patients.filter((items) => items.examDate === date)} maxPatients={maxPatients} HandlePatient={() => setModalOpen(true)} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
+      </div>
+      {modalOpen && <PatientModal CloseModal={() => { setModalOpen(false); setPatientToEdit(null) }} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients[patientToEdit]} today={date} />}
     </div>
   )
 }
