@@ -1,13 +1,11 @@
 import React from 'react'
 import button from '../../assets/dltButton.png'
 
-const dltButton = () => {
+const dltButton = ({handler}) => {
   return (
-    <div>
-        <button>
-            <img src={button} />
-        </button>
-    </div>
+    <button onClick={handler}>
+      <img src={button} />
+    </button>
   )
 }
 
