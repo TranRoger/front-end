@@ -5,6 +5,7 @@ import List from './pages/List'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Menu from './components/Menu'
+import Regulation from './pages/Regulation'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/list" element={<List />} />
+          <Route path='/regulation' element={<Regulation />} />
         </Routes>
       </div>
 

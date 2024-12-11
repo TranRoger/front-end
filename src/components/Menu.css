@@ -6,8 +6,4 @@
   .menu {
     @apply text-lg font-bold text-black flex-1 outline outline-1 hover:bg-[#D9D9D9] bg-opacity-100 shadow-lg flex items-center justify-center;
   }
-
-  .menu-pressed {
-    @apply text-lg font-bold text-black flex-1 outline outline-1 bg-[#D9D9D9] bg-opacity-100 shadow-lg;
-  }
 }

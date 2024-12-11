@@ -12,7 +12,7 @@ import BE_SERVER from '../../config/system'
 const List = () => {
   const [loading, setLoading] = useState(false)
   const [patients, setPatient] = useState([]);
-  const [maxPatients, setMaxPatients] = useState(40);
+  const [maxPatients, setMaxPatients] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [patientToEdit, setPatientToEdit] = useState(null)
 
@@ -136,7 +136,7 @@ const List = () => {
   if (loading) {
     return (<Spinner />)
   }
-  else return (
+  else if (maxPatients) return (
     <div className="flex flex-1 flex-col w-full m-1 mr-3">
       {/* Content header */}
       <div className='flex flex-col w-full h-28 items-center justify-between'>
