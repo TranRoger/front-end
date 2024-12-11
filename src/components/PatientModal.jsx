@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import './PatientModal.css'
 import Button from './ui/button'
 
-const patientModal = ({ CloseModal, handleSubmit, defaultValue, today }) => {
+const patientModal = ({ CloseModal, handleSubmit, defaultValue }) => {
     const [formState, setFormState] = useState(defaultValue || {
         fullName: "",
         yearOfBirth: 1990,
         sex: "Nam",
         phone: "",
-        address: "",
-        examDate: today
+        address: ""
     })
 
     const [error, setError] = useState("")

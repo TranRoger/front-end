@@ -5,6 +5,7 @@ import Button from '../components/ui/button'
 import axios from 'axios'
 import Spinner from '../components/ui/Spinner'
 import './List.css'
+import moment from 'moment'
 
 import BE_SERVER from '../../config/system'
 
@@ -37,7 +38,6 @@ const List = () => {
       .get(`${BE_SERVER}exam-list`)
       .then((response) => {
         setPatient(response.data.data)
-
         setLoading(false)
       })
       .catch((error) => {
@@ -64,6 +64,9 @@ const List = () => {
   const HandleEditPatient = (index) => {
     setPatientToEdit(index)
 
+    const CreatedDate = moment(patients[index].createdAt)
+    console.log(patients[index].createdAt)
+    console.log(CreatedDate.day)
     setModalOpen(true)
   }
 
@@ -96,7 +99,7 @@ const List = () => {
           setLoading(false)
         })
 
-        setPatient([...patients, newPatient])
+      setPatient([...patients, newPatient])
     }
     else {
       axios
@@ -109,12 +112,25 @@ const List = () => {
           setLoading(false)
         })
 
-        setPatient(patients.map((patient, idx) => {
-          if (idx !== patientToEdit) return patient
+      setPatient(patients.map((patient, idx) => {
+        if (idx !== patientToEdit) return patient
 
-          return newPatient
-        }))
+        return newPatient
+      }))
     }
+  }
+
+  const filterPatient = (patient) => {
+    const d = moment(date)
+    let day = d.date()
+    let month = d.month()
+    let year = d.year()
+
+    const created = moment(patient.createdAt)
+    if (created.date() === day && created.month() === month && created.year() === year)
+      return true
+
+    return false
   }
 
   if (loading) {
@@ -131,15 +147,15 @@ const List = () => {
             <div className="text-black text-lg">Ngày khám:</div>
             <input type="date" placeholder='dd-mm-yyyy' value={date} className="w-[200px] bg-transparent text-lg" onChange={HandleDateChange} />
           </div>
-          {maxPatients > patients.filter((item) => item.examDate === date).length && <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />}
+          {maxPatients > patients.filter((item) => filterPatient(item)).length && <Button text={'Thêm bệnh nhân'} handler={() => setModalOpen(true)} />}
         </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
-        <Table patients={patients.filter((item) => item.examDate === date)} maxPatients={maxPatients} HandlePatient={() => setModalOpen(true)} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
+        <Table patients={patients.filter((item) => filterPatient(item))} maxPatients={maxPatients} HandlePatient={() => setModalOpen(true)} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
       </div>
-      {modalOpen && <PatientModal CloseModal={() => { setModalOpen(false); setPatientToEdit(null) }} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients[patientToEdit]} today={date} />}
+      {modalOpen && <PatientModal CloseModal={() => { setModalOpen(false); setPatientToEdit(null) }} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients[patientToEdit]} />}
     </div>
   )
 }
