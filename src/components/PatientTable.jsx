@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './PatientTable.css'
+
 import Button from '../components/ui/button'
 import TrashButton from '../components/ui/dltButton'
 import EditButton from '../components/ui/editButton'
