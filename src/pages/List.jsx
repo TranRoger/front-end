@@ -64,17 +64,16 @@ const List = () => {
   const HandleEditPatient = (index) => {
     setPatientToEdit(index)
 
-    const CreatedDate = moment(patients[index].createdAt)
-    console.log(patients[index].createdAt)
-    console.log(CreatedDate.day)
     setModalOpen(true)
   }
 
   const HandleDeleteButton = (index) => {
     setLoading(true)
 
+    const delteted = patients.filter((item) => filterPatient(item))[index]._id
     axios
-      .delete(`${BE_SERVER}exam-list/delete/${patients[index]._id}`)
+      .delete(`${BE_SERVER}exam-list/delete/${delteted}`)
+
       .then(() => {
         setLoading(false)
       })
@@ -83,7 +82,7 @@ const List = () => {
         setLoading(false)
       })
 
-    setPatient(patients.filter((_, idx) => idx !== index))
+    setPatient(patients.filter((patient, idx) => patient._id !== delteted))
   }
 
   const HandleNewPatient = (newPatient) => {
@@ -113,7 +112,7 @@ const List = () => {
         })
 
       setPatient(patients.map((patient, idx) => {
-        if (idx !== patientToEdit) return patient
+        if (patient._id !== newPatient._id) return patient
 
         return newPatient
       }))
@@ -155,7 +154,7 @@ const List = () => {
       <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
         <Table patients={patients.filter((item) => filterPatient(item))} maxPatients={maxPatients} HandlePatient={() => setModalOpen(true)} HandleDelete={HandleDeleteButton} HandleEdit={HandleEditPatient} />
       </div>
-      {modalOpen && <PatientModal CloseModal={() => { setModalOpen(false); setPatientToEdit(null) }} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients[patientToEdit]} />}
+      {modalOpen && <PatientModal CloseModal={() => { setModalOpen(false); setPatientToEdit(null) }} handleSubmit={HandleNewPatient} defaultValue={patientToEdit !== null && patients.filter((item) => filterPatient(item))[patientToEdit]} />}
     </div>
   )
 }
