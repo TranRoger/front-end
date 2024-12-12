@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './PatientModal.css'
 import Button from './ui/button'
 
 const patientModal = ({ CloseModal, handleSubmit, defaultValue }) => {

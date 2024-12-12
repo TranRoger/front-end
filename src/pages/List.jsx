@@ -4,7 +4,6 @@ import PatientModal from '../components/PatientModal'
 import Button from '../components/ui/button'
 import axios from 'axios'
 import Spinner from '../components/ui/Spinner'
-import './List.css'
 import moment from 'moment'
 
 import BE_SERVER from '../../config/system'

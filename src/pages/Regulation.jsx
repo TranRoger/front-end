@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './Regulation.css'
 import General from './Regulation/General'
 import Medicine from './Regulation/Medicine'
 import Disease from './Regulation/Disease'
