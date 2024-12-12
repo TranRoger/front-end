@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Search from './pages/Search'
 
 import LookingPage from './pages/PatientPage'
+import Create from './pages/Create'
 
 
 
@@ -12,7 +13,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/search" element={<Search />} />
-  
+      <Route path="/create" element={<Create />} />
       <Route path="/looking" element={<LookingPage />} />
     </Routes>
   )
