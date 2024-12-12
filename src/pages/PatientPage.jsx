@@ -16,8 +16,7 @@ const LookingPage = () => {
         navigate('/search'); // Navigate to the home page or any other page
       };
       return (
-        <div className='bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] h-screen flex flex-col'>
-          <Header />
+        
           
           <div className="flex flex-col items-center justify-center flex-1 p-6">
            
@@ -53,8 +52,8 @@ const LookingPage = () => {
             </div>
           </div>
           
-          <Footer />
-        </div>
+         
+        
       );
 };
 
