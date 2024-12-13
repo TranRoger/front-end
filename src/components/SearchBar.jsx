@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 const SearchBar = () => {
   // Sample dataset for search
   const sampleData = [
-    'Apple',
+    'Trần Hùng Anh',
+    'Trương Tiến Anh',
+    'Nguyễn Hoàng Anh',
     'Banana',
     'Orange',
     'Grapes',
@@ -42,7 +44,7 @@ const SearchBar = () => {
   // Function to handle suggestion click
   const handleSuggestionClick = (suggestion) => {
     setQuery(suggestion); // Set the query to the clicked suggestion
-    
+    console.log(query);
 
     setFilteredData([]); // Optionally clear the suggestions list after selection
   };
@@ -55,7 +57,7 @@ const SearchBar = () => {
       setErrorMessage('No results found'); // Show error if no results found
     }
     else {
-      navigate('/looking'); // Navigate to the /looking page if valid query and results exist
+      navigate(`/looking?param=${encodeURIComponent(query)}`); // Navigate to the /looking page if valid query and results exist
     }
   };
 
