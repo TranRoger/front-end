@@ -15,7 +15,7 @@ const General = () => {
         axios
             .get(`${BE_SERVER}regulation-update/general-regulation`)
             .then((response) => {
-                setRegulation(response.data.data)
+                setRegulation(response.data)
                 setLoading(false)
             })
             .catch((error) => {
