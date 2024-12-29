@@ -48,7 +48,7 @@ const General = () => {
 
     if (loading) return (<Spinner />)
     else if (regulation) return (
-        <div className="flex-1 grid grid-rows-3 w-full items-center justify-center">
+        <div className="flex-1 grid grid-rows-3 w-full items-center justify-center space-y-20">
             <div className='fields space-x-10'>
                 <label htmlFor="maxPatientsPerDay" className='w-full text-lg'>Số bệnh nhân tối đa trong một ngày</label>
                 <input type="number" name='maxPatientsPerDay' value={regulation.maxPatientsPerDay} className='input w-32' onChange={HandleChange}/>
