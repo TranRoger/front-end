@@ -14,6 +14,7 @@ import NameAndLogo from './components/NameAndLogo'
 import AuthProvider from './context/AuthContext'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import Invoice from './pages/Invoice'
 
 const App = () => {
   return (
@@ -53,6 +54,7 @@ const App = () => {
             <Route path="/search" element={<Search />} />
             <Route path="/create" element={<Create />} />
             <Route path="/looking" element={<LookingPage />} />
+            <Route path='/invoice' element={<Invoice />} />
           </Route>
         </Routes>
       </div>

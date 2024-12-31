@@ -5,10 +5,14 @@ import Button from "../components/ui/button";
 import axios from "axios";
 import Spinner from "../components/ui/Spinner";
 import moment from "moment";
+import TrashButton from '../components/ui/dltButton'
+import EditButton from '../components/ui/editButton'
+import { useNavigate } from "react-router-dom";
 
 import BE_SERVER from "../../config/system";
 
 const List = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [patients, setPatient] = useState([]);
   const [maxPatients, setMaxPatients] = useState();
@@ -44,16 +48,8 @@ const List = () => {
       });
   }, []);
 
-  const GetDate = () => {
-    var date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
 
-    return `${year}-${month}-${day}`;
-  };
-
-  const [date, setDate] = useState(GetDate);
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
 
   const HandleDateChange = (e) => {
     setDate(e.target.value);
@@ -135,6 +131,14 @@ const List = () => {
     return false;
   };
 
+  const HandleInvoice = (index) => {
+    navigate('/invoice', { state: { patientID: patients.filter((item) => filterPatient(item))[index]._id } });
+  }
+
+  const HandleForm = (index) => {
+    navigate('/create', { state: { patientID: patients.filter((item) => filterPatient(item))[index]._id } });
+  }
+
   if (loading) {
     return <Spinner />;
   } else if (maxPatients)
@@ -159,11 +163,11 @@ const List = () => {
             </div>
             {maxPatients >
               patients.filter((item) => filterPatient(item)).length && (
-              <Button
-                text={"Thêm bệnh nhân"}
-                handler={() => setModalOpen(true)}
-              />
-            )}
+                <Button
+                  text={"Thêm bệnh nhân"}
+                  handler={() => setModalOpen(true)}
+                />
+              )}
           </div>
         </div>
 
@@ -175,6 +179,14 @@ const List = () => {
             HandlePatient={() => setModalOpen(true)}
             HandleDelete={HandleDeleteButton}
             HandleEdit={HandleEditPatient}
+            Button={(index) =>(
+              <>
+                <EditButton handler={() => HandleEditPatient(index)} />
+                <TrashButton handler={() => HandleDeleteButton(index)} />
+                <Button text="Hóa đơn" handler={() => HandleInvoice(index)} />
+                <Button text="Phiếu khám" handler={() => HandleForm(index)} />
+              </>
+            )}
           />
         </div>
         {modalOpen && (

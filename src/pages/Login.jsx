@@ -39,7 +39,6 @@ const Login = () => {
     
         try {
             const response = await authService.login(user);
-            console.log("here")
             dispatch({ type: 'LOGIN', payload: response.data });
             window.localStorage.setItem("user", JSON.stringify(response.data));
             navigate('/');

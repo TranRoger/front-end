@@ -1,0 +1,41 @@
+import axios from '../../config/axios.config';
+
+const formService = {
+    getDisease: async () => {
+        try {
+            const response = await axios.get('regulation-update/disease');
+            return response.data.diseases;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    getMedicine: async () => {
+        try {
+            const response = await axios.get('regulation-update/medicine');
+            return response.data.medicines;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    getPatient: async (id) => {
+        try {
+            const response = await axios.get('exam-form/create/' + id);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    createForm: async (form, id) => {
+        try {
+            const response = await axios.post('exam-form/create/' + id, form);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+};
+
+export default formService;

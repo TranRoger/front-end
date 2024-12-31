@@ -1,41 +1,249 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Menu from '../components/Menu';
-
-import '../index.css';
+import React, { useEffect, useState, useRef } from 'react';
+import formService from '../services/form.service';
+import Spinner from '../components/ui/Spinner';
+import Button from '../components/ui/button';
+import DeleteButton from '../components/ui/dltButton';
+import PrintButton from '../components/ui/printButton';
+import moment from 'moment';
+import { useLocation } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 
 const Create = () => {
-  return (
-    
-        <div className="flex-1 h-full relative">
-            <div className="flex flex-col items-center justify-center flex-1 p-6">
-                <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h1 className="text-3xl font-semibold mb-4 text-center">Create New Patient</h1>
-                <div className="mb-4">
-                    <h2 className="font-bold text-lg">Full Name:</h2>
-                    <input type="text" className="border-2 border-black rounded-lg p-2 w-full" />
+    const location = useLocation();
+    const patientID = location.state?.patientID;
+    const [patient, setPatient] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [disease, setDisease] = useState([]);
+    const [medicine, setMedicine] = useState([]);
+    const [currentDisease, setCurrentDisease] = useState('');
+    const [medOnBill, setMedOnBill] = useState([]);
+    const [request, setRequest] = useState({});
+    const [error, setError] = useState(null);
+    const contentRef = useRef(null);
+    const reactToPrint = useReactToPrint({ contentRef });
+
+    const fetchData = async () => {
+        // console.log(patientID);
+        setLoading(true);
+        const response = await formService.getDisease();
+        setDisease(response);
+        setCurrentDisease(response[0]);
+        const response2 = await formService.getMedicine();
+        setMedicine(response2);
+        if (patientID) {
+            const response3 = await formService.getPatient(patientID);
+            // console.log(response3);
+            setPatient(response3.patient);
+        }
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        setRequest({
+            patientID: patient._id,
+            position: 1,
+            symptoms: currentDisease.symptoms,
+            diagnosis: currentDisease.diseaseName,
+            medicines: medOnBill.map((item) => {
+                return {
+                    medicineID: item._id,
+                    quantity: item.quantity
+                }
+            })
+        });
+    }, [medOnBill, currentDisease]);
+
+    const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
+
+    const HandleDateChange = (e) => {
+        setDate(e.target.value);
+    };
+
+    const HandleAddMed = () => {
+        setMedOnBill([...medOnBill, medicine[0]]);
+    }
+
+    const HandleChooseMed = (id, index) => {
+
+        // console.log(id, index)
+        const med = medicine.find((item) => item._id === id);
+        // console.log(med)
+        // console.log(medOnBill)
+        setMedOnBill(medOnBill.map((item, idx) => {
+            // console.log(item)
+            if (idx === index) {
+                item = med;
+                // console.log("hree")
+            }
+            // console.log(item)
+            return item;
+        }));
+        // console.log(medOnBill)
+    }
+
+    const HandleSubmit = async () => {
+        setLoading(true);
+
+        if (request.patientID === undefined) {
+            setError("Chưa chọn bệnh nhân");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            console.log(request);
+            const response = await formService.createForm(request, patient._id);
+            console.log(response);
+            setError(response.message);
+        } catch (error) {
+            console.log(error);
+            setError(error.message);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
+    if (loading) {
+        return <Spinner />;
+    }
+    else if (disease && medicine) return (
+        <div className='flex flex-1 flex-col w-full h-full'>
+            <div ref={contentRef} className='flex flex-1 flex-col w-full m-1 mr-4'>
+                {/* Content header */}
+                <div className="flex flex-col w-full h-28 items-center justify-between">
+                    <div className="text-black font-bold text-3xl p-2">
+                        PHIẾU KHÁM BỆNH
+                    </div>
+                    <div className="grid grid-cols-3 w-full h-full items-center space-x-3 mr-auto">
+                        <div></div>
+                        <div className="flex flex-row space-x-3 items-center justify-center">
+                            <div className="text-black text-lg">Ngày khám:</div>
+                            <input
+                                type="date"
+                                placeholder="dd-mm-yyyy"
+                                value={date}
+                                className="w-[200px] bg-transparent text-lg"
+                                onChange={HandleDateChange}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="mb-4">
-                    <h2 className="font-bold text-lg">Year of Birth:</h2>
-                    <input type="number" className="border-2 border-black rounded-lg p-2 w-full" />
+
+                {/* Content */}
+                <div className="flex flex-col w-full max-h-full items-center justify-start mx-1 space-y-3 mt-10">
+                    <div className="grid items-center space-y-3">
+                        <div className="fields justify-between">
+                            <div className="text-black text-lg">Tên bệnh nhân:</div>
+                            <input
+                                type="text"
+                                placeholder="Nhập tên bệnh nhân"
+                                className="input"
+                                value={patient.fullName}
+                            />
+                        </div>
+                        <div className="fields">
+                            <div className="text-black text-lg">Triệu chứng:</div>
+                            <input
+                                type="text"
+                                placeholder="Nhập triệu chứng:"
+                                className="input"
+                                value={currentDisease.symptoms}
+                                onChange={(e) => { currentDisease.symptoms = e.target.value }}
+                            />
+                        </div>
+                        <div className="fields">
+                            <div className="text-black text-lg">Dự đoán loại bệnh:</div>
+                            <select className="input" onChange={(e) => { setCurrentDisease(disease.find((item, index) => item._id === e.target.value)) }}>
+                                {disease.map((item, index) => {
+                                    return (
+                                        <option name={index} key={index} value={item._id}>{item.diseaseName}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                    </div>
+                    <div className='overflow-hidden flex-1 flex w-full h-3/6'>
+                        <table className='w-full'>
+                            <thead className='p-4'>
+                                <tr className='bg-[#D9D9D9]/100'>
+                                    <th className='table-header text-center'>
+                                        <p className="table-header-text">
+                                            STT
+                                        </p>
+                                    </th>
+                                    <th className='table-header'>
+                                        <p className="table-header-text text-left">
+                                            Thuốc
+                                        </p>
+                                    </th>
+                                    <th className='table-header text-center'>
+                                        <p className="table-header-text">
+                                            Đơn Vị
+                                        </p>
+                                    </th>
+                                    <th className='table-header text-center'>
+                                        <p className="table-header-text">
+                                            Số Lượng
+                                        </p>
+                                    </th>
+                                    <th className='table-header'>
+                                        <p className="table-header-text text-left">
+                                            Cách Dùng
+                                        </p>
+                                    </th>
+                                    <th className=''>
+                                        <Button text={"Thêm thuốc"} handler={() => { HandleAddMed() }} />
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody className='flex-1 w-full overflow-y-scroll'>
+                                {
+                                    medOnBill.map((item, index) => {
+                                        return (
+                                            <tr key={index} className='even:bg-[#D9D9D9]/100'>
+                                                <td className='text-center'>{index + 1}</td>
+                                                <td>
+                                                    <select className='bg-transparent focus:outline-none text-lg' onChange={(e) => { HandleChooseMed(e.target.value, index); }}>
+                                                        {medicine.map((med, idx) => {
+                                                            return (
+                                                                <option key={idx} value={med._id}>{med.medicineName}</option>
+                                                            )
+                                                        })}
+                                                    </select>
+                                                </td>
+                                                <td className='text-center'>{item.unit}</td>
+                                                <td className='text-center'>
+                                                    <input type='number' value={item.quantity} className='border-b-2 border-black bg-transparent focus:outline-none text-lg text-center' onChange={(e) => { item.quantity = e.target.value }} />
+                                                </td>
+                                                <td>
+                                                    {item.usageMethod}
+                                                </td>
+                                                <td className='text-center p-4'>
+                                                    <DeleteButton handler={() => { setMedOnBill(medOnBill.filter((med, idx) => idx !== index)) }} />
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    {error && <div className="bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg">{error}</div>}
                 </div>
-                <div className="mb-4">
-                    <h2 className="font-bold text-lg">Phone Number:</h2>
-                    <input type="text" className="border-2 border-black rounded-lg p-2 w-full" />
-                </div>
-                <div className="mb-4">
-                    <h2 className="font-bold text-lg">Symptoms:</h2>
-                    <input type="text" className="border-2 border-black rounded-lg p-2 w-full" />
-                </div>
-                <button className="mt-4 w-full p-4 bg-[#D9D9D9] text-black font-semibold rounded-lg shadow-md hover:bg-[#FAD0C4] focus:outline-none transition-all">
-                    Create Patient
-                </button>
-                </div>
+            </div >
+            <div className='flex flex-row space-x-3 items-center justify-end p-3 m-5'>
+                <Button text={"Xuất hóa đơn"} handler={() => reactToPrint()} />
+                <Button text={"Lưu"} handler={() => HandleSubmit()} />
+                <PrintButton handler={() => reactToPrint()} />
             </div>
         </div>
-     
-  );
+    );
 };
 
 export default Create;
