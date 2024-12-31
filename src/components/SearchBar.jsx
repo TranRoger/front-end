@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BE_SERVER from '../../config/system';
+
 
 const SearchBar = () => {
-  // Sample dataset for search
-  const sampleData = [
-    'Trần Hùng Anh',
-    'Trương Tiến Anh',
-    'Nguyễn Hoàng Anh',
-    'Banana',
-    'Orange',
-    'Grapes',
-    'Mango',
-    'Pineapple',
-    'Strawberry',
-    'Blueberry',
-    'Watermelon',
-    'Peach',
-  ];
+  const [loading, setLoading] = useState(false);
+  const [patients, setPatients] = useState([]); // Update state to store multiple patients
+  const sampleData = [];
+  // useEffect(() => {
+  //   axios
+  //   .get(`${BE_SERVER}exam-list`)
+  //   .then((response) => {
+  //       console.log("Patient data:", response.data.data);
+  //       setPatients(response.data.data);
+  //       for (let i = 0; i < patients.length; i++) {
+  //         sampleData.push(patients[i].fullName);
+  //       }
+  //       console.log("Sample data:", sampleData);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching patient data:", error);
+  //       setLoading(false);
+  //     });
+  // }, []);
+  
 
   const [query, setQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
@@ -44,17 +53,13 @@ const SearchBar = () => {
   // Function to handle suggestion click
   const handleSuggestionClick = (suggestion) => {
     setQuery(suggestion); // Set the query to the clicked suggestion
-    console.log(query);
-
     setFilteredData([]); // Optionally clear the suggestions list after selection
   };
 
   // Function to handle "Tìm Kiếm" button click
   const handleLookingButtonClick = () => {
     if (!query) {
-      setErrorMessage('Please enter a search query'); // Show error if the query is empty
-    } else if (sampleData.indexOf(query) === -1) {
-      setErrorMessage('No results found'); // Show error if no results found
+      setErrorMessage('Hãy nhập tên tìm kiếm'); 
     }
     else {
       navigate(`/looking?param=${encodeURIComponent(query)}`); // Navigate to the /looking page if valid query and results exist
@@ -68,12 +73,12 @@ const SearchBar = () => {
         <input
           type="text"
           value={query}
-          onChange={handleInputChange}
+          onChange={(e) => setQuery(e.target.value)}
           className="w-full p-4 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-          placeholder="Search for patients"
+          placeholder="Nhập tên bệnh nhân"
         />
 
-        {/* Display suggestions */}
+         {/* //Display suggestions */}
         {query && filteredData.length > 0 && (
           <ul className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 z-10">
             {filteredData.map((item, index) => (
@@ -88,12 +93,12 @@ const SearchBar = () => {
           </ul>
         )}
 
-        {/* Display "Not Found" message */}
+        {/* Display "Not Found" message
         {query && sampleData.indexOf(query)===-1 && (
           <div className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 p-3 text-gray-500">
             Not Found
           </div>
-        )}
+        )} */}
 
         {/* Display Error Message */}
         {errorMessage && (

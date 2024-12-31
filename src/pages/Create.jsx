@@ -14,6 +14,7 @@ const Create = () => {
   const [medicines, setMedicines] = useState([]);
   const [position, setPosition] = useState("");
   const [patients, setPatients] = useState([]);
+  const [patientObj,SetpatientObj]=useState(null);
 
   const navigate = useNavigate();
 
@@ -35,11 +36,24 @@ const Create = () => {
 
   // Create a new exam form for the patient
   const handleCreatePatient = () => {
-    const patientObj = patients.find((item) => item.fullName === fullName);
+    if (!fullName || !position || !diagnosis || !symptoms || medicines.length === 0) {
+      alert("Please fill all the fields!");
+      return;
+    }
+  
+    
+    for (let i = 0; i < patients.length; i++) {
+      if (patients[i].fullName === fullName) {
+        SetpatientObj(patients[i]);
+        break; // Exit loop once a match is found
+      }
+    }
+    
     if (!patientObj) {
       alert("Patient not found!");
       return;
     }
+ 
 
     const data = {
       position,
@@ -50,7 +64,7 @@ const Create = () => {
 
     setLoading(true);
     axios
-      .post(`${BE_SERVER}exam-form/create/${patientObj.Id}`, data)
+      .post(`${BE_SERVER}exam-form/create/${patientObj._id}`, data)
       .then((response) => {
         setLoading(false);
         console.log("Patient created successfully:", response);

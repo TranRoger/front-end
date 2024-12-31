@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
-import BE_SERVER from '../../config/system'
+import BE_SERVER from '../../config/system';
+
 const LookingPage = () => {
   const [loading, setLoading] = useState(false);
-  const [patient, setData] = useState({});
+  const [patients, setPatients] = useState([]); // Update state to store multiple patients
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ const LookingPage = () => {
         .get(`${BE_SERVER}patient-search?name=${query}`)
         .then((response) => {
           console.log('Patient data:', response.data.data);
-          setData(response.data.data[0]);
+          setPatients(response.data.data || []); // Store all patients in state
           setLoading(false);
         })
         .catch((error) => {
@@ -28,7 +29,7 @@ const LookingPage = () => {
           setLoading(false);
         });
     }
-  }, []);
+  }, [query]);
 
   const handleLookingButtonClick = () => {
     navigate('/search'); // Navigate to the search page
@@ -40,41 +41,38 @@ const LookingPage = () => {
       {loading ? (
         <div className="text-center">
           <div className="loader"></div>
-          <p>Loading patient information...</p>
+          <p>Đang tìm kiếm thông tin bệnh nhân...</p>
         </div>
       ) : (
-        /* User Information Display as Table */
-        <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-2xl">
-          <h1 className="text-3xl font-semibold mb-4 text-center">Patient Information</h1>
+        <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-4xl">
+          <h1 className="text-3xl font-semibold mb-4 text-center">Thông tin bệnh nhân</h1>
 
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse border border-gray-300">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="px-4 py-2 border">Field</th>
-                  <th className="px-4 py-2 border">Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="px-4 py-2 border font-bold">Full Name</td>
-                  <td className="px-4 py-2 border">{patient["patientName"] || 'N/A'}</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2 border font-bold">Year of Birth</td>
-                  <td className="px-4 py-2 border">{patient["examDate"] || 'N/A'}</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2 border font-bold">Phone Number</td>
-                  <td className="px-4 py-2 border">{patient["symptoms"] || 'N/A'}</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2 border font-bold">Symptoms</td>
-                  <td className="px-4 py-2 border">{patient["diagnosis"] || 'N/A'}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {patients.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full border-collapse border border-gray-300">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="px-4 py-2 border">Họ tên</th>
+                    <th className="px-4 py-2 border">Ngày khám</th>
+                    <th className="px-4 py-2 border">Triệu chứng</th>
+                    <th className="px-4 py-2 border">Chuẩn đoán</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {patients.map((patient, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-2 border">{patient.patientName || 'N/A'}</td>
+                      <td className="px-4 py-2 border">{patient.examDate || 'N/A'}</td>
+                      <td className="px-4 py-2 border">{patient.symptoms || 'N/A'}</td>
+                      <td className="px-4 py-2 border">{patient.diagnosis || 'N/A'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-center text-red-500">Không tìm thấy bệnh nhân</p>
+          )}
 
           <button
             onClick={handleLookingButtonClick}
