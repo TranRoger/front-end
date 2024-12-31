@@ -15,6 +15,7 @@ const Invoice = () => {
     const [invoiceDetails, setInvoiceDetails] = useState([]);
     const contentRef = useRef(null);
     const reactToPrint = useReactToPrint({ contentRef });
+    const [error, setError] = useState(null);
 
     const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
 
@@ -23,15 +24,20 @@ const Invoice = () => {
     };
 
     const fetchData = async () => {
-        setLoading(true);
-        try {
-            const res = await invoiceService.getInvoiceDetails(patientID);
-            console.log(res.data);
-            setInvoiceDetails(res.data);
-        } catch (err) {
-            console.log(err);
+        if (patientID) {
+            setLoading(true);
+            try {
+                const res = await invoiceService.getInvoiceDetails(patientID);
+                console.log(res.data);
+                setInvoiceDetails(res.data);
+            } catch (err) {
+                console.log(err);
+                if (err.response) {
+                    setError(err.response.data.message);
+                }
+            }
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
@@ -106,10 +112,11 @@ const Invoice = () => {
                             value={invoiceDetails.totalFee + ' Nghìn VND'}
                         />
                     </div>
+                    {error && <div className="bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg">{error}</div>}
                 </div>
             </div>
             <div className="flex flex-row justify-center items-center mb-10">
-                <PrintButton handler={() => reactToPrint()}/>
+                <PrintButton handler={() => reactToPrint()} />
             </div>
         </div>
     );
