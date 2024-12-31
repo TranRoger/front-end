@@ -1,0 +1,28 @@
+import axios from '../../config/axios.config';
+
+const authService = {
+  login: async (credentials) => {
+    try {
+      const response = await axios.post('auth/login', credentials);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  checkAuth: async () => {
+    const response = await axios.get('auth/login');
+    return response.status;
+  },
+
+  logout: async () => {
+    try {
+      const response = await axios.get('auth/logout');
+      return response;
+    } catch (error) {
+      throw null;
+    }
+  },
+};
+
+export default authService;

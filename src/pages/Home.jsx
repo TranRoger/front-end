@@ -3,11 +3,11 @@ import '../index.css'
 
 const Home = () => {
   return (
-    <div className="flex-1 h-full relative mx-1 my-1">
+    <div className="flex-1 h-full mx-1 my-1 items-center justify-center flex">
       <img
         src="dashboard.png"
         alt="dashboard"
-        className="absolute w-full h-full object-contain"
+        className="h-5/6 w-auto"
       />
     </div>
   )
