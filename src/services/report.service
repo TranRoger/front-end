@@ -1,0 +1,19 @@
+import axios from '../../config/axios.config';
+
+const reportService = {
+  getMonthlyReport: async () => {
+    const response = await axios.get('/monthly-report/');
+    return response.data;
+  },
+  getRevenue: async (month) => {
+    const response = await axios.get(`/monthly-report/revenue?month=${month}`);  
+    return response.data;
+  },
+  getMedicineData: async (month) => {
+    const response = await axios.get(`/monthly-report/medicine?month=${month}`);  
+    return response.data;
+  },
+};
+
+export default reportService;
+

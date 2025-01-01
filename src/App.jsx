@@ -15,11 +15,14 @@ import AuthProvider from './context/AuthContext'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import Invoice from './pages/Invoice'
+import Report from './pages/Report'
+
 
 const App = () => {
+
   return (
     <AuthProvider>
-      <div className='flex flex-col bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] h-screen'>
+      <div className='flex flex-col bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] md:h-screen h-auto'>
         <Routes>
           {/* Public routes */}
           <Route element={
@@ -55,6 +58,7 @@ const App = () => {
             <Route path="/create" element={<Create />} />
             <Route path="/looking" element={<LookingPage />} />
             <Route path='/invoice' element={<Invoice />} />
+            <Route path='/report' element={<Report />} />
           </Route>
         </Routes>
       </div>

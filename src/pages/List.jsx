@@ -145,19 +145,19 @@ const List = () => {
     return (
       <div className="flex flex-1 flex-col w-full m-1 mr-3">
         {/* Content header */}
-        <div className="flex flex-col w-full h-28 items-center justify-between">
-          <div className="text-black font-bold text-3xl p-2">
+        <div className="flex flex-col lg:flex-row w-full h-28 items-center justify-between p-4">
+          <div className="text-black font-bold text-2xl lg:text-3xl p-2">
             DANH SÁCH KHÁM BỆNH
           </div>
-          <div className="grid grid-cols-3 w-full h-full items-center space-x-3 mr-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 w-full h-full items-center space-y-4 lg:space-y-0">
             <div></div>
             <div className="flex flex-row space-x-3 items-center justify-center">
-              <div className="text-black text-lg">Ngày khám:</div>
+              <div className="text-black text-sm lg:text-lg">Ngày khám:</div>
               <input
                 type="date"
                 placeholder="dd-mm-yyyy"
                 value={date}
-                className="w-[200px] bg-transparent text-lg"
+                className="w-[150px] bg-transparent text-sm lg:text-lg"
                 onChange={HandleDateChange}
               />
             </div>
@@ -166,6 +166,7 @@ const List = () => {
                 <Button
                   text={"Thêm bệnh nhân"}
                   handler={() => setModalOpen(true)}
+                  className="w-[200px] lg:w-[250px]"
                 />
               )}
           </div>
