@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
 
-import Button from '../components/ui/button'
-import TrashButton from '../components/ui/dltButton'
-import EditButton from '../components/ui/editButton'
-
 const TableHeader = () => {
     return (
         <thead className='p-4'>
@@ -40,16 +36,16 @@ const TableHeader = () => {
     )
 }
 
-const PatientTable = ({ patients, HandleDelete, HandleEdit }) => {
+const PatientTable = ({ patients, Button }) => {
     return (
-        <table className='w-full table-auto'>
+        <table className='w-full'>
             <TableHeader />
 
             <tbody className='flex-1 w-full overflow-scroll'>
                 {
                     patients.map((patient, index) => {
                         return (
-                            <tr key={index} className='even:bg-[#D9D9D9]/100 p-4'>
+                            <tr key={index} className='even:bg-[#D9D9D9]/100'>
                                 <td className='p-4 text-center'>
                                     <p className='table-row-text'>{index + 1}</p>
                                 </td>
@@ -65,11 +61,10 @@ const PatientTable = ({ patients, HandleDelete, HandleEdit }) => {
                                 <td className='p-4'>
                                     <p className='table-row-text'>{patient.address}</p>
                                 </td>
-                                <td className='p-4'>
-                                    <span className='flex flex-row space-x-2'>
-                                        <EditButton handler={() => HandleEdit(index)}/>
-                                        <TrashButton handler={() => HandleDelete(index)}/>
-                                    </span>
+                                <td className='p-4 justify-items-end w-80'>
+                                    <div className='flex flex-row space-x-2 w-fit justify-end'>
+                                        {Button(index)}
+                                    </div>
                                 </td>
                             </tr>
                         )
