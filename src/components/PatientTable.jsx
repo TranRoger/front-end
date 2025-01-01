@@ -61,7 +61,7 @@ const PatientTable = ({ patients, Button }) => {
                                 <td className='p-4'>
                                     <p className='table-row-text'>{patient.address}</p>
                                 </td>
-                                <td className='p-4 justify-items-end w-80'>
+                                <td className='p-4 justify-items-end w-96'>
                                     <div className='flex flex-row space-x-2 w-fit justify-end'>
                                         {Button(index)}
                                     </div>

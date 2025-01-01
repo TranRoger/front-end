@@ -104,7 +104,7 @@ const Create = () => {
             // console.log(response);
             setError(response.message);
         } catch (error) {
-            // console.log(error);
+            // console.log(error`);
             setError(error.message);
         }
         finally {
