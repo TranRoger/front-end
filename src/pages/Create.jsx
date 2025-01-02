@@ -179,7 +179,7 @@ const Create = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='overflow-y-scroll flex-1 flex w-full '>
+                    <div className='overflow-y-scroll flex-1 flex w-full'>
                         <table className='w-full'>
                             <thead className='p-4'>
                                 <tr className='bg-[#D9D9D9]/100'>
@@ -214,7 +214,7 @@ const Create = () => {
                                 </tr>
                             </thead>
 
-                            <tbody className='flex-1 w-full h-full'>
+                            <tbody className='w-full'>
                                 {
                                     medOnBill.map((item, index) => {
                                         return (
