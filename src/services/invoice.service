@@ -10,7 +10,15 @@ const invoiceService = {
         }
     },
 
-
+    createInvoice: async (id) => {
+        try {
+            const response = await axios.post("invoice/create/" + id);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 };
 
 export default invoiceService;

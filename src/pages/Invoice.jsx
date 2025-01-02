@@ -28,7 +28,7 @@ const Invoice = () => {
             setLoading(true);
             try {
                 const res = await invoiceService.getInvoiceDetails(patientID);
-                console.log(res.data);
+                // console.log(res.data);
                 setInvoiceDetails(res.data);
             } catch (err) {
                 console.log(err);
@@ -43,6 +43,23 @@ const Invoice = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const HandleComplete = async () => {
+        setLoading(true);
+        console.log(patientID);
+        if (patientID) {
+            try {
+                const res = await invoiceService.createInvoice(patientID);
+                console.log(res);
+                setError(res.data.message);
+            } catch (err) {
+                console.log(err);
+                setError(err.response.data.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+    }
 
     if (loading) {
         return <Spinner />;
@@ -115,8 +132,9 @@ const Invoice = () => {
                     {error && <div className="bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg">{error}</div>}
                 </div>
             </div>
-            <div className="flex flex-row justify-center items-center mb-10">
+            <div className="flex flex-row justify-center space-x-10 items-center mb-10">
                 <PrintButton handler={() => reactToPrint()} />
+                <Button handler={() => HandleComplete()} text="Hoàn tất thanh toán" />
             </div>
         </div>
     );
