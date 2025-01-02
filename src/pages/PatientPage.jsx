@@ -36,7 +36,7 @@ const LookingPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 p-6">
+    <div className="flex flex-col items-center justify-center flex-1 p-6 overflow-scroll">
       {/* Loading Spinner */}
       {loading ? (
         <div className="text-center">
@@ -44,7 +44,7 @@ const LookingPage = () => {
           <p>Đang tìm kiếm thông tin bệnh nhân...</p>
         </div>
       ) : (
-        <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-4xl">
+        <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-4xl mt-44">
           <h1 className="text-3xl font-semibold mb-4 text-center">Thông tin bệnh nhân</h1>
 
           {patients.length > 0 ? (
