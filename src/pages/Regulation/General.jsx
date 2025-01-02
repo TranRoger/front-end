@@ -9,6 +9,7 @@ const General = () => {
     const [regulation, setRegulation] = useState(null)
     const [loading, setLoading] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setLoading(true)
@@ -26,6 +27,14 @@ const General = () => {
 
     const Update = async () => {
         setLoading(true)
+        // console.log(regulation)
+
+        if (regulation.maxPatientsPerDay === "" || regulation.examFee === "" ) {
+            setError("Vui lòng nhập đầy đủ thông tin")
+            setLoading(false)
+            setModalOpen(false)
+            return
+        }
 
         axios
             .post(`${BE_SERVER}regulation-update/general-regulation`, regulation)
@@ -40,6 +49,12 @@ const General = () => {
     }
 
     const HandleChange = (e) => {
+        if (e.target.value <= 0) {
+            setError("Vui lòng nhập số lớn hơn 0")
+        }
+        else {
+            setError('')
+        }
         setRegulation({
             ...regulation,
             [e.target.name]: e.target.value
@@ -51,15 +66,17 @@ const General = () => {
         <div className="flex-1 grid grid-rows-3 w-full items-center justify-center space-y-20">
             <div className='fields space-x-10'>
                 <label htmlFor="maxPatientsPerDay" className='w-full text-lg'>Số bệnh nhân tối đa trong một ngày</label>
-                <input type="number" name='maxPatientsPerDay' value={regulation.maxPatientsPerDay} className='input w-32' onChange={HandleChange}/>
+                <input type="number" name='maxPatientsPerDay' value={regulation.maxPatientsPerDay} className='input w-32' onChange={HandleChange} />
             </div>
             <div className='fields'>
                 <label htmlFor="examFee" className='text-lg'>Tiền khám</label>
                 <input type="number" name='examFee' value={regulation.examFee} onChange={HandleChange} className='input w-52' />
             </div>
+            {error && <p className='bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg'>{error}</p>}
             <div className='flex h-12 justify-end'>
                 <Button text='Cập nhật' handler={Update} />
-                {modalOpen && <SuccessModal Close={() => setModalOpen(false)} />}
+                {modalOpen && !error && <SuccessModal Close={() => setModalOpen(false)} />}
+
             </div>
 
         </div>

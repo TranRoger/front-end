@@ -134,7 +134,7 @@ const Invoice = () => {
             </div>
             <div className="flex flex-row justify-center space-x-10 items-center mb-10">
                 <PrintButton handler={() => reactToPrint()} />
-                <Button handler={() => HandleComplete()} text="Hoàn tất thanh toán" />
+                {patientID && <Button handler={() => HandleComplete()} text="Hoàn tất thanh toán" />}
             </div>
         </div>
     );
