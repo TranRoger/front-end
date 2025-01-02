@@ -127,10 +127,10 @@ const Create = () => {
     }
     else if (disease && medicine) return (
         <div className='flex flex-1 flex-col w-full'>
-            <div ref={contentRef} className='flex flex-1 flex-col w-full h-[60%] mb-14'>
+            <div ref={contentRef} className='flex flex-1 flex-col w-full h-[60%] mb-10'>
                 {/* Content header */}
-                <div className="flex flex-row h-28">
-                    <div className="text-black font-bold text-3xl p-2 w-full mx-5">
+                <div className="flex flex-row h-fit">
+                    <div className="text-black font-bold text-3xl p-2 w-full mx-5 items-center">
                         PHIẾU KHÁM BỆNH
                     </div>
                     <div className="flex flex-row space-x-3 items-center justify-center w-full mx-5">
@@ -139,7 +139,7 @@ const Create = () => {
                             type="date"
                             placeholder="dd-mm-yyyy"
                             value={date}
-                            className=" bg-transparent text-lg"
+                            className=" bg-transparent text-lg h-fit"
                             onChange={HandleDateChange}
                         />
                     </div>
