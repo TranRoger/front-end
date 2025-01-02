@@ -1,9 +1,9 @@
 import React from 'react'
 import button from '../../assets/printer.png'
 
-const printButton = ({ handler }) => {
+const printButton = ({ handler, className }) => {
   return (
-    <button onClick={handler}>
+    <button onClick={handler} className={className}>
       <img className='w-8' src={button} alt='Print' />
     </button>
   )

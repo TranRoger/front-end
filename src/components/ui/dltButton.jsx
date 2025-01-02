@@ -1,9 +1,9 @@
 import React from 'react'
 import button from '../../assets/dltButton.png'
 
-const dltButton = ({handler}) => {
+const dltButton = ({handler, className}) => {
   return (
-    <button onClick={handler}>
+    <button className={className} onClick={handler}>
       <img src={button} alt='Delete' />
     </button>
   )

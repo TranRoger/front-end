@@ -1,12 +1,17 @@
-import React from 'react'
-import '../../index.css'
+import React from 'react';
+import '../../index.css';
 
-function button({text, handler}) {
+function Button({ text, handler, className = '' }) {
   return (
-    <button className='bg-purple-700 rounded-full shadow-lg text-white items-center justify-center p-3 hover:bg-purple-500' onClick={handler}>
-        <p className='text-white mx-2'>{text}</p>
+    <button
+      className={`bg-purple-700 rounded-full shadow-lg text-white flex items-center justify-center px-4 py-2 
+                  hover:bg-purple-500 focus:ring-2 focus:ring-purple-300 active:bg-purple-800 
+                  text-sm sm:text-base md:text-lg ${className}`}
+      onClick={handler}
+    >
+      <p className="mx-2">{text}</p>
     </button>
-  )
+  );
 }
 
-export default button
+export default Button;

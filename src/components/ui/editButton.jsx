@@ -1,9 +1,9 @@
 import React from 'react'
 import button from '../../assets/editButton.png'
 
-const editButton = ({handler}) => {
+const editButton = ({handler, className}) => {
   return (
-    <button onClick={handler}>
+    <button className={className} onClick={handler}>
       <img src={button} alt='Edit' />
     </button>
   )

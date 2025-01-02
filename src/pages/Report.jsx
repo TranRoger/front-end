@@ -66,8 +66,6 @@ const Report = () => {
     }
   };
   
-
-
   useEffect(() => {
     if (debouncedMonth && reportType) {
       fetchReport(debouncedMonth);
@@ -86,21 +84,21 @@ const Report = () => {
     if (reportType === 'revenue') {
       const columns = ['STT', 'Ngày', 'Số bệnh nhân', 'Doanh thu'];
       return (
-        <table className="table-auto border-collapse border border-gray-300 w-3/5 overflow-auto">
-          <thead className="p-4">
-            <tr className='bg-[#D9D9D9]/100 p-4'>
+        <table className="table-auto border-collapse border border-gray-300 w-3/5 overflow-auto xs:w-[90%]">
+          <thead className="p-4 xs:p-0">
+            <tr className='bg-[#D9D9D9]/100 p-4 xs:p-0'>
               {columns.map((col) => (
-                <th key={col} className="table-header text-center p-4">{col}</th>
+                <th key={col} className="table-header text-center p-4 xs:p-0 xs:text-[10px]">{col}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
-              <tr key={index}  className='even:bg-[#D9D9D9]/100 p-4'>
-                <td className="table-row-text p-4 text-center">{index + 1}</td>
-                <td className="table-row-text p-4 text-center">{row.day}</td>
-                <td className="table-row-text p-4 text-center">{row.patients}</td>
-                <td className="table-row-text p-4 text-center">{row.revenue}</td>
+              <tr key={index}  className='even:bg-[#D9D9D9]/100 p-4 xs:p-0'>
+                <td className="table-row-text p-4 text-center xs:text-[10px]">{index + 1}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px]">{row.day}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px]">{row.patients}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px]">{row.revenue}</td>
               </tr>
             ))}
           </tbody>
@@ -109,51 +107,56 @@ const Report = () => {
     } else if (reportType === 'medicine') {
       const columns = ['STT', 'Thuốc', 'Đơn vị tính', 'Mô tả', 'Số lượng', 'Số lần dùng']; 
       return (
-        <table className="table-auto border-collapse border border-gray-300 w-3/5 overflow-auto">
-          <thead className="p-4">
-          <tr className='bg-[#D9D9D9]/100 p-4'>
+        <div className="table-container">
+        <table className="table-auto border-collapse border border-gray-300 ">
+          <thead className="p-4 xs:p-0 xs:text-[10px]">
+          <tr className='bg-[#D9D9D9]/100 p-4 xs:p-0 xs:text-[10px]'>
               {columns.map((col) => (
-                <th key={col} className="table-header text-center p-4">{col}</th>
+                <th key={col} className="table-header text-center p-4 xs:p-0 xs:text-[10px]">{col}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
-              <tr key={index}  className='even:bg-[#D9D9D9]/100 p-4'>
-                <td className="table-row-text p-4 text-center">{index + 1}</td>
-                <td className="table-row-text p-4 text-center">{row.name}</td>
-                <td className="table-row-text p-4 text-center">{row.unit}</td>
-                <td className="table-row-text p-4 text-center">{row.description}</td>
-                <td className="table-row-text p-4 text-center">{row.totalQuantity}</td>
-                <td className="table-row-text p-4 text-center">{row.usageCount}</td>
+              <tr key={index}  className='even:bg-[#D9D9D9]/100 p-4 xs:p-0 xs:text-[10px]'>
+                <td className="table-row-text p-4 text-center xs:text-[10px] xs:p-0">{index + 1}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px] xs:p-0">{row.name}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px] xs:p-0">{row.unit}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px] xs:p-0">{row.description}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px] xs:p-0">{row.totalQuantity}</td>
+                <td className="table-row-text p-4 text-center xs:text-[10px] xs:p-0">{row.usageCount}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       );
     }
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-20">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-20 xs:gap-4">
       {!reportType ? (
         <>
-          <h1 className="text-[30px]">Báo Cáo Hằng Tháng</h1>
+          <h1 className="text-[30px] xs:text-sm">Báo Cáo Hằng Tháng</h1>
             <Button 
+              className='xs:text-[10px]'
               text={"Doanh thu"} 
               handler={() => setReportType('revenue')} 
             />
-            <Button 
+            <Button
+              className='xs:text-[10px]' 
               text={"Thuốc"} 
               handler={() => setReportType('medicine')} 
             />
         </>
       ) : (
         <>
-          <div>
-            <h1 className="text-[30px] mb-5">{reportType === 'revenue' ? 'Báo Cáo Doanh Thu' : 'Báo Cáo Thuốc'}</h1>
-            <label className="ml-0" htmlFor="month">Tháng: </label>
+          <div className=''>
+            <h1 className="text-[30px] mb-5 xs:text-sm">{reportType === 'revenue' ? 'Báo Cáo Doanh Thu' : 'Báo Cáo Thuốc'}</h1>
+            <label className="ml-0 xs:text-[10px]" htmlFor="month">Tháng: </label>
             <input 
+              className='xs:text-[10px]'
               id="month"
               type="text"
               value={selectedMonth}
@@ -163,17 +166,17 @@ const Report = () => {
           </div>
 
           <div>
-            <Button text="Trở về" handler={() => {
+            <Button className="xs:text-[10px]" text="Trở về" handler={() => {
               setReportType(null); 
               setSelectedMonth(''); 
             }} />
           </div>
-           {debouncedMonth && error && <div className="text-red-500">{error}</div>}
+           {debouncedMonth && error && <div className="text-red-500 xs:text-[10px]">{error}</div>}
 
             {debouncedMonth && reportData !== null && renderTable(reportData)}
 
             {debouncedMonth && reportData === null && !loading && !error && (
-                <div>Không có báo cáo của tháng này</div>
+                <span className="xs:text-[10px]">Không có báo cáo của tháng này</span>
             )}
         </>
       )}

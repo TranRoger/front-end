@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <div className='flex flex-col bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] md:h-screen h-auto'>
+      <div className='flex flex-col bg-gradient-to-r from-[#FF9A9E] via-[#FAD0C4] to-[#FAD0C4] h-screen overflow-auto'>
         <Routes>
           {/* Public routes */}
           <Route element={

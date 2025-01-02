@@ -4,43 +4,57 @@
 
 @layer base {
     label {
-        @apply text-lg text-black w-32 items-center;
+        @apply text-base sm:text-lg text-black w-full sm:w-32 items-center;
     }
 
     tr {
-        @apply overflow-x-auto
+        @apply overflow-x-auto;
     }
 }
 
 @layer components {
     .button {
-        @apply text-lg font-bold bg-slate-100/55 hover:bg-slate-100/20 focus:shadow-inner focus:shadow-stone-900 
+        @apply text-base sm:text-lg font-bold bg-slate-100/55 hover:bg-slate-100/20 focus:shadow-inner focus:shadow-stone-900 px-4 py-2;
     }
     
     .menu {
-    @apply text-lg font-bold text-black flex-1 outline outline-1 hover:bg-[#D9D9D9] bg-opacity-100 shadow-lg flex items-center justify-center;
-  }
+        @apply text-sm sm:text-lg font-bold text-black flex-1 outline outline-1 hover:bg-[#D9D9D9] bg-opacity-100 shadow-lg flex items-center justify-center px-3 sm:px-5 py-2 sm:py-4;
+    }
   
     .modal {
-        @apply bg-black/50 fixed flex justify-center items-center w-full h-full inset-0; 
+        @apply bg-black/50 fixed flex justify-center items-center w-full h-full inset-0;
     }
 
     .fields {
-        @apply flex flex-row space-x-5 items-center justify-between;
+        @apply flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-5 items-center justify-between;
     }
 
     .input {
-        @apply appearance-none focus:outline-none p-2 border-b-2 border-black w-72 bg-transparent text-lg;
+        @apply appearance-none focus:outline-none p-2 border-b-2 border-black w-full sm:w-72 bg-transparent text-base sm:text-lg;
     }
 
     .table-header {
     }
 
     .table-header-text {
-        @apply block p-5 text-black text-lg antialiased leading-none;
+        @apply block xs:p-1 p-2 text-black text-[11px] sm:text-lg antialiased leading-none;
     }
 
     .table-row-text {
-        @apply text-black text-lg;
+        @apply text-black text-[10px] sm:text-lg;
     }
+
+    .table-container {
+        overflow-x: auto;
+      }
+      
+      table {
+        width: 100%; 
+        border-collapse: collapse; 
+      }
+      
+      td, th {
+        text-align: center;
+      }
+      
 }

@@ -65,16 +65,16 @@ const General = () => {
     else if (regulation) return (
         <div className="flex-1 grid grid-rows-3 w-full items-center justify-center space-y-20">
             <div className='fields space-x-10'>
-                <label htmlFor="maxPatientsPerDay" className='w-full text-lg'>Số bệnh nhân tối đa trong một ngày</label>
-                <input type="number" name='maxPatientsPerDay' value={regulation.maxPatientsPerDay} className='input w-32' onChange={HandleChange} />
+                <label htmlFor="maxPatientsPerDay" className='w-full text-lg xs:text-[10px]'>Số bệnh nhân tối đa trong một ngày</label>
+                <input type="number" name='maxPatientsPerDay' value={regulation.maxPatientsPerDay} className='input w-32 xs:text-[10px]' onChange={HandleChange} />
             </div>
             <div className='fields'>
-                <label htmlFor="examFee" className='text-lg'>Tiền khám</label>
-                <input type="number" name='examFee' value={regulation.examFee} onChange={HandleChange} className='input w-52' />
+                <label htmlFor="examFee" className='text-lg xs:text-[10px]'>Tiền khám</label>
+                <input type="number" name='examFee' value={regulation.examFee} onChange={HandleChange} className='input w-52 xs:text-[10px]' />
             </div>
             {error && <p className='bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg'>{error}</p>}
             <div className='flex h-12 justify-end'>
-                <Button text='Cập nhật' handler={Update} />
+                <Button className='xs:text-[10px]' text='Cập nhật' handler={Update} />
                 {modalOpen && !error && <SuccessModal Close={() => setModalOpen(false)} />}
 
             </div>

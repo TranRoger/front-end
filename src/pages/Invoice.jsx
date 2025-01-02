@@ -65,21 +65,21 @@ const Invoice = () => {
         return <Spinner />;
     } else return (
         <div className="flex flex-col w-full h-full items-center justify-center">
-            <div ref={contentRef} className="flex flex-1 flex-col w-full m-1 mr-3">
+            <div ref={contentRef} className="flex flex-1 flex-col w-full m-1 mr-3 xs:m-0">
                 {/* Content header */}
                 <div className="flex flex-col w-full h-28 items-center justify-between">
-                    <div className="text-black font-bold text-3xl p-2">
+                    <div className="text-black font-bold text-3xl p-2 xs:text-sm">
                         HÓA ĐƠN
                     </div>
                     <div className="grid grid-cols-3 w-full h-full items-center space-x-3 mr-auto">
                         <div></div>
-                        <div className="flex flex-row space-x-3 items-center justify-center">
-                            <div className="text-black text-lg">Ngày:</div>
+                        <div className="flex flex-row space-x-3 items-center justify-center xs:text-[10px]">
+                            <div className="text-black text-lg xs:text-[10px]">Ngày:</div>
                             <input
                                 type="date"
                                 placeholder="dd-mm-yyyy"
                                 value={date}
-                                className="w-[200px] bg-transparent text-lg"
+                                className="w-[200px] bg-transparent text-lg xs:text-[10px]"
                                 onChange={HandleDateChange}
                             />
                         </div>
@@ -90,50 +90,50 @@ const Invoice = () => {
                 {/* Content */}
                 <div className="grid items-center justify-center space-y-3 mt-3">
                     <div className="fields ">
-                        <div className="text-black text-lg">Tên bệnh nhân:</div>
+                        <div className="text-black text-lg xs:text-[10px]">Tên bệnh nhân:</div>
                         <input
                             type="text"
                             placeholder="Nhập tên bệnh nhân"
-                            className="input border-none"
+                            className="input border-none xs:text-[10px]"
                             disabled
                             value={invoiceDetails.patientName}
                         />
                     </div>
                     <div className="fields">
-                        <div className="text-black text-lg">Tiền khám:</div>
+                        <div className="text-black text-lg xs:text-[10px]">Tiền khám:</div>
                         <input
                             type="text"
                             placeholder="Nhập tiền khám"
-                            className="input border-none"
+                            className="input border-none xs:text-[10px]"
                             disabled
                             value={invoiceDetails.examFee + ' Nghìn VND'}
                         />
                     </div>
                     <div className="fields">
-                        <div className="text-black text-lg">Tiền thuốc:</div>
+                        <div className="text-black text-lg xs:text-[10px]">Tiền thuốc:</div>
                         <input
                             type="text"
                             placeholder="Tiền thuốc"
-                            className="input"
+                            className="input xs:text-[10px]"
                             disabled
                             value={invoiceDetails.medicineFee + ' Nghìn VND'}
                         />
                     </div>
                     <div className="fields">
-                        <div className="text-black text-lg">Tổng tiền:</div>
+                        <div className="text-black text-lg xs:text-[10px]">Tổng tiền:</div>
                         <input
                             type="text"
                             placeholder="Tổng tiền"
-                            className="input border-none"
+                            className="input border-none xs:text-[10px]"
                             disabled
                             value={invoiceDetails.totalFee + ' Nghìn VND'}
                         />
                     </div>
-                    {error && <div className="bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg">{error}</div>}
+                    {error && <div className="bg-red-500 rounded-lg p-2 flex flex-row items-center justify-center text-white text-lg xs:text-[10px]">{error}</div>}
                 </div>
             </div>
-            <div className="flex flex-row justify-center space-x-10 items-center mb-10">
-                <PrintButton handler={() => reactToPrint()} />
+            <div className="flex flex-row justify-center space-x-10 items-center mb-10 xs:mt-4">
+                <PrintButton className='xs:w-3 xs:h-3' handler={() => reactToPrint()} />
                 {patientID && <Button handler={() => HandleComplete()} text="Hoàn tất thanh toán" />}
             </div>
         </div>

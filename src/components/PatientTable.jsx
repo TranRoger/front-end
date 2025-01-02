@@ -36,9 +36,9 @@ const TableHeader = () => {
     )
 }
 
-const PatientTable = ({ patients, Button }) => {
+const PatientTable = ({ patients, Button, className }) => {
     return (
-        <table className='w-full'>
+        <table className={className}>
             <TableHeader />
 
             <tbody className='flex-1 w-full overflow-scroll'>
@@ -46,23 +46,23 @@ const PatientTable = ({ patients, Button }) => {
                     patients.map((patient, index) => {
                         return (
                             <tr key={index} className='even:bg-[#D9D9D9]/100'>
-                                <td className='p-4 text-center'>
+                                <td className='md:p-4 px-0 text-center'>
                                     <p className='table-row-text'>{index + 1}</p>
                                 </td>
-                                <td className='p-4'>
+                                <td className='md:p-4 p-0'>
                                     <p className='table-row-text'>{patient.fullName}</p>
                                 </td>
-                                <td className='p-4 text-center'>
+                                <td className='md:p-4 p-0 text-center'>
                                     <p className='table-row-text'>{patient.sex}</p>
                                 </td>
-                                <td className='p-4 text-center'>
+                                <td className='md:p-4 p-0 text-center'>
                                     <p className='table-row-text'>{patient.yearOfBirth}</p>
                                 </td>
-                                <td className='p-4'>
+                                <td className='md:p-4 p-0'>
                                     <p className='table-row-text'>{patient.address}</p>
                                 </td>
-                                <td className='p-4 justify-items-end w-96'>
-                                    <div className='flex flex-row space-x-2 w-fit justify-end'>
+                                <td className='md:p-4 p-0 md:justify-items-end md:w-96 w-10'>
+                                    <div className='flex md:flex-row flex-col md:space-x-2 md:w-fit justify-end'>
                                         {Button(index)}
                                     </div>
                                 </td>

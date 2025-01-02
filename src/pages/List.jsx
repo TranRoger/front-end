@@ -143,21 +143,21 @@ const List = () => {
     return <Spinner />;
   } else if (maxPatients)
     return (
-      <div className="flex flex-1 flex-col w-full m-1 mr-3">
+      <div className="flex flex-1 flex-col w-full m-1 mr-3 xs:mx-1">
         {/* Content header */}
-        <div className="flex flex-col lg:flex-row w-full h-28 items-center justify-between p-4">
-          <div className="text-black font-bold text-2xl lg:text-3xl p-2">
+        <div className="flex xs:flex-col flex-row w-full h-28 items-center justify-between p-4 xs:p-1">
+          <div className="text-black font-bold text-2xl p-2 xs:text-sm">
             DANH SÁCH KHÁM BỆNH
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 w-full h-full items-center space-y-4 lg:space-y-0">
-            <div></div>
-            <div className="flex flex-row space-x-3 items-center justify-center">
-              <div className="text-black text-sm lg:text-lg">Ngày khám:</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 w-full h-full items-center md:space-y-4 space-y-0">
+            <div className="flex flex-row md:space-x-3 items-center justify-center xs:mb-2">
+              <div></div>
+              <div className="text-black text-sm lg:text-lg xs:text-[10px]">Ngày khám:</div>
               <input
                 type="date"
                 placeholder="dd-mm-yyyy"
                 value={date}
-                className="w-[150px] bg-transparent text-sm lg:text-lg"
+                className="w-[150px] xs:text-[10px] bg-transparent lg:text-lg"
                 onChange={HandleDateChange}
               />
             </div>
@@ -166,14 +166,14 @@ const List = () => {
                 <Button
                   text={"Thêm bệnh nhân"}
                   handler={() => setModalOpen(true)}
-                  className="w-[200px] lg:w-[250px]"
+                  className="xs:text-[10px] w-[250px]"
                 />
               )}
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex-1 w-full max-h-full overflow-auto relative flex flex-col items-center">
+        <div className="flex-1 max-w-screen max-h-full overflow-auto relative flex flex-col items-center">
           <Table
             patients={patients.filter((item) => filterPatient(item))}
             maxPatients={maxPatients}
@@ -181,12 +181,14 @@ const List = () => {
             HandleDelete={HandleDeleteButton}
             HandleEdit={HandleEditPatient}
             Button={(index) =>(
-              <>
-                <EditButton handler={() => HandleEditPatient(index)} />
-                <TrashButton handler={() => HandleDeleteButton(index)} />
-                <Button text="Hóa đơn" handler={() => HandleInvoice(index)} />
-                <Button text="Phiếu khám" handler={() => HandleForm(index)} />
-              </>
+              <div className="xs:flex xs:flex-col xs:items-center flex flex-row items-center justify-center gap-1">
+                <div>
+                <EditButton className="xs:w-4 xs:h-4" handler={() => HandleEditPatient(index)} />
+                <TrashButton className="xs:w-4 xs:h-4" handler={() => HandleDeleteButton(index)} />
+                </div>
+                <Button className="xs:text-[8px] xs:text-nowrap xs:p-0" text="Hóa đơn" handler={() => HandleInvoice(index)} />
+                <Button className="xs:text-[8px] xs:text-nowrap xs:p-0" text="Phiếu khám" handler={() => HandleForm(index)} />
+              </div>
             )}
           />
         </div>

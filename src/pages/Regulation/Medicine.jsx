@@ -39,7 +39,7 @@ const Medicine = () => {
                         </p>
                     </th>
                     <th className='table-header'>
-                        <Button text='Thêm thuốc' handler={() => setModalOpen(true)} />
+                        <Button className="xs:text-[8px] xs:px-0 xs:text-nowrap" text='Thêm thuốc' handler={() => setModalOpen(true)} />
                     </th>
                 </tr>
             </thead>
@@ -131,26 +131,26 @@ const Medicine = () => {
                     {
                         medicines.map((medicine, index) => {
                             return (
-                                <tr key={index} className='even:bg-[#D9D9D9]/100 p-4'>
-                                    <td className='p-4 text-center'>
+                                <tr key={index} className='even:bg-[#D9D9D9]/100 p-4 xs:p-0'>
+                                    <td className='p-4 text-center xs:p-0'>
                                         <p className='table-row-text'>{index + 1}</p>
                                     </td>
-                                    <td className='p-4'>
+                                    <td className='p-4 xs:p-0'>
                                         <p className='table-row-text'>{medicine.medicineName}</p>
                                     </td>
-                                    <td className='p-4 text-center'>
+                                    <td className='p-4 text-center xs:p-0'>
                                         <p className='table-row-text'>{medicine.unit}</p>
                                     </td>
-                                    <td className='p-4 text-center'>
+                                    <td className='p-4 text-center xs:p-0'>
                                         <p className='table-row-text'>{medicine.unitPrice}</p>
                                     </td>
-                                    <td className='p-4'>
+                                    <td className='p-4 xs:p-0'>
                                         <p className='table-row-text'>{medicine.usageMethod}</p>
                                     </td>
-                                    <td className='p-4'>
+                                    <td className='p-4 xs:p-0'>
                                         <span className='flex flex-row space-x-2 justify-center'>
-                                            <EditButton handler={() => HandleEdit(index)} />
-                                            <TrashButton handler={() => HandleDelete(index)} />
+                                            <EditButton className="xs:w-3 xs:h-3" handler={() => HandleEdit(index)} />
+                                            <TrashButton className="xs:w-3 xs:h-3" handler={() => HandleDelete(index)} />
                                         </span>
                                     </td>
                                 </tr>

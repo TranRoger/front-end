@@ -33,7 +33,7 @@ const Disease = () => {
                         </p>
                     </th>
                     <th className='table-header'>
-                        <Button text='Thêm bệnh' handler={() => setModalOpen(true)} />
+                        <Button className="xs:text-[8px] xs:px-0 xs:text-nowrap" text='Thêm bệnh' handler={() => setModalOpen(true)} />
                     </th>
                 </tr>
             </thead>
@@ -117,7 +117,7 @@ const Disease = () => {
 
     if (loading) return (<Spinner />)
     else if (diseases) return (
-        <div className='w-full m-1'>
+        <div className='w-full m-1 xs:m-0'>
             {modalOpen && <DiseaseModal Close={() => {setModalOpen(false); setDiseaseToEdit(null)}} defaultValue={diseaseToEdit !== null ? diseases[diseaseToEdit] : null} handleSubmit={HandleNewDisease} />}
             <table className='w-full table-auto'>
                 <TableHeader />

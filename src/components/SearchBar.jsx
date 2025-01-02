@@ -74,17 +74,17 @@ const SearchBar = () => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full p-4 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full p-4 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-500 xs:text-[10px]"
           placeholder="Nhập tên bệnh nhân"
         />
 
          {/* //Display suggestions */}
         {query && filteredData.length > 0 && (
-          <ul className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 z-10">
+          <ul className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 z-10 xs:text-[10px]">
             {filteredData.map((item, index) => (
               <li
                 key={index}
-                className="p-3 cursor-pointer hover:bg-pink-100 transition-all"
+                className="p-3 cursor-pointer hover:bg-pink-100 transition-all xs:text-[10px]"
                 onClick={() => handleSuggestionClick(item)} // Handle click
               >
                 {item}
@@ -102,7 +102,7 @@ const SearchBar = () => {
 
         {/* Display Error Message */}
         {errorMessage && (
-          <div className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 p-3 text-red-500">
+          <div className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 p-3 text-red-500 xs:text-[10px]">
             {errorMessage}
           </div>
         )}
@@ -110,7 +110,7 @@ const SearchBar = () => {
         {/* "Tìm Kiếm" Button */}
         <button
           onClick={handleLookingButtonClick}
-          className="mt-4 w-full p-4 bg-pink-500 text-white rounded-lg shadow-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all"
+          className="mt-4 w-full p-4 bg-pink-500 text-white rounded-lg shadow-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all xs:text-[10px]"
         >
           Tìm Kiếm
         </button>

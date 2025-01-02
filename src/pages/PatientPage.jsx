@@ -36,7 +36,7 @@ const LookingPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 p-6 overflow-scroll">
+    <div className="flex flex-col items-center justify-center flex-1 p-6 overflow-scroll xs:p-0">
       {/* Loading Spinner */}
       {loading ? (
         <div className="text-center">
@@ -44,39 +44,39 @@ const LookingPage = () => {
           <p>Đang tìm kiếm thông tin bệnh nhân...</p>
         </div>
       ) : (
-        <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-4xl mt-44">
-          <h1 className="text-3xl font-semibold mb-4 text-center">Thông tin bệnh nhân</h1>
+        <div className="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-4xl mt-44 xs:p-0">
+          <h1 className="text-3xl font-semibold mb-4 text-center xs:text-sm">Thông tin bệnh nhân</h1>
 
           {patients.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="table-auto w-full border-collapse border border-gray-300">
                 <thead className="bg-gray-200">
                   <tr>
-                    <th className="px-4 py-2 border">Họ tên</th>
-                    <th className="px-4 py-2 border">Ngày khám</th>
-                    <th className="px-4 py-2 border">Triệu chứng</th>
-                    <th className="px-4 py-2 border">Chuẩn đoán</th>
+                    <th className="px-4 py-2 border xs:text-[10px]">Họ tên</th>
+                    <th className="px-4 py-2 border xs:text-[10px]">Ngày khám</th>
+                    <th className="px-4 py-2 border xs:text-[10px]">Triệu chứng</th>
+                    <th className="px-4 py-2 border xs:text-[10px]">Chuẩn đoán</th>
                   </tr>
                 </thead>
                 <tbody>
                   {patients.map((patient, index) => (
                     <tr key={index}>
-                      <td className="px-4 py-2 border">{patient.patientName || 'N/A'}</td>
-                      <td className="px-4 py-2 border">{patient.examDate || 'N/A'}</td>
-                      <td className="px-4 py-2 border">{patient.symptoms || 'N/A'}</td>
-                      <td className="px-4 py-2 border">{patient.diagnosis || 'N/A'}</td>
+                      <td className="px-4 py-2 border xs:text-[10px]">{patient.patientName || 'N/A'}</td>
+                      <td className="px-4 py-2 border xs:text-[10px]">{patient.examDate || 'N/A'}</td>
+                      <td className="px-4 py-2 border xs:text-[10px]">{patient.symptoms || 'N/A'}</td>
+                      <td className="px-4 py-2 border xs:text-[10px]">{patient.diagnosis || 'N/A'}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           ) : (
-            <p className="text-center text-red-500">Không tìm thấy bệnh nhân</p>
+            <p className="text-center text-red-500 xs:text-[10px]">Không tìm thấy bệnh nhân</p>
           )}
 
           <button
             onClick={handleLookingButtonClick}
-            className="mt-4 w-full p-4 bg-[#D9D9D9] text-black font-semibold rounded-lg shadow-md hover:bg-[#FAD0C4] focus:outline-none transition-all"
+            className="mt-4 w-full p-4 bg-[#D9D9D9] text-black font-semibold rounded-lg shadow-md hover:bg-[#FAD0C4] focus:outline-none transition-all xs:text-[10px]"
           >
             Quay về
           </button>
